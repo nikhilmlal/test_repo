@@ -29,6 +29,7 @@ name: "Issue Triage"
     types:
     - opened
     - edited
+workflow_dispatch:
 
 permissions: {}
 
