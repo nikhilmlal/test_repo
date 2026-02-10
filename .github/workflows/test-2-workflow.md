@@ -9,6 +9,17 @@ permissions:
 
 tools:
   github:
+
+safe-outputs:
+  create-issue:
+    title-prefix: "[ai] "            # prefix for titles
+    labels: [automation, agentic]    # labels to attach
+    assignees: [user1, copilot]      # assignees (use 'copilot' for bot)
+    max: 5                           # max issues (default: 1)
+    expires: 7                       # auto-close after 7 days (or false to disable)
+    group: true                      # group as sub-issues under parent
+    close-older-issues: true         # close previous issues from same workflow
+    target-repo: "owner/repo"        # cross-repository
 ---
 
 # Pipeline Failure Analysis Agentic Workflow
@@ -16,9 +27,8 @@ tools:
 ## Overview
 
 - **Workflow Name:** Pipeline Failure Analysis and Intelligence
-- **Purpose:** Automatically analyzes failed CI/CD pipelines, identifies root causes, and provides actionable insights and recommendations
+- **Purpose:** Automatically analyzes failed CI/CD pipelines, identifies root causes, and provides actionable insights and recommendations and creates an issue with the findings.
 - **Scope:** Triggers on workflow failures, performs intelligent analysis, and reports findings to pull requests and issues
-
 
 ## Components
 
@@ -97,6 +107,7 @@ tools:
 - **Inputs:** 
   - Workflow run event from target CI/CD pipeline
   - Failure status confirmation
+  - If no failed workflows are found, analyse the workflow run with ID '21829189352'
 - **Outputs:** 
   - Trigger event passed to Log Fetcher Agent
   - Workflow context (ID, repository, branch)
