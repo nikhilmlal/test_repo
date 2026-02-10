@@ -171,3 +171,5 @@ safe-outputs:
   - GitHub issue creation (for recurring failures)
   - `failure-analysis-report.json` artifact
 
+### Step 6: Create Issue
+- **Description:** Create a Github Issue in the repository with all the details found.
