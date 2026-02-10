@@ -19,28 +19,22 @@
 #   gh aw compile
 # For more information: https://github.com/github/gh-aw/blob/main/.github/aw/github-agentic-workflows.md
 #
-# Automatically triages newly opened GitHub issues by classifying type, assigning labels, setting priority, and requesting missing information.
 #
-# frontmatter-hash: 5e8a21deedbb8f9dc5b1a59a8dcdbb0b5504f99d7bac4da3f1c1f8ebc372c50a
+# frontmatter-hash: ac1ad953c461a5e6f44f313c319c9c033a1f30c860591a0203d1c2a6b0271f54
 
-name: "Issue Triage"
+name: "Pipeline Failure Analysis Agentic Workflow"
 "on":
-  issues:
-    types:
-    - opened
-    - edited
+  workflow_dispatch:
 
 permissions: {}
 
 concurrency:
-  group: "gh-aw-${{ github.workflow }}-${{ github.event.issue.number }}"
+  group: "gh-aw-${{ github.workflow }}"
 
-run-name: "Issue Triage"
+run-name: "Pipeline Failure Analysis Agentic Workflow"
 
 jobs:
   activation:
-    needs: pre_activation
-    if: needs.pre_activation.outputs.activated == 'true'
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -55,7 +49,7 @@ jobs:
       - name: Check workflow file timestamps
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         env:
-          GH_AW_WORKFLOW_FILE: "issue-triage.agent.lock.yml"
+          GH_AW_WORKFLOW_FILE: "test-2-workflow.lock.yml"
         with:
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
@@ -70,6 +64,8 @@ jobs:
       contents: read
       issues: read
       pull-requests: read
+    concurrency:
+      group: "gh-aw-copilot-${{ github.workflow }}"
     outputs:
       checkout_pr_success: ${{ steps.checkout-pr.outputs.checkout_pr_success || 'true' }}
       model: ${{ steps.generate_aw_info.outputs.model }}
@@ -196,7 +192,7 @@ jobs:
               version: "",
               agent_version: "0.0.405",
               cli_version: "v0.42.16",
-              workflow_name: "Issue Triage",
+              workflow_name: "Pipeline Failure Analysis Agentic Workflow",
               experimental: false,
               supports_tools_allowlist: true,
               supports_http_transport: true,
@@ -285,7 +281,7 @@ jobs:
           </system>
           PROMPT_EOF
           cat << 'PROMPT_EOF' >> "$GH_AW_PROMPT"
-          {{#runtime-import .github/workflows/issue-triage.agent.md}}
+          {{#runtime-import .github/workflows/test-2-workflow.md}}
           PROMPT_EOF
       - name: Substitute placeholders
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
@@ -448,26 +444,4 @@ jobs:
             /tmp/gh-aw/agent-stdio.log
             /tmp/gh-aw/agent/
           if-no-files-found: ignore
-
-  pre_activation:
-    runs-on: ubuntu-slim
-    outputs:
-      activated: ${{ steps.check_membership.outputs.is_team_member == 'true' }}
-    steps:
-      - name: Setup Scripts
-        uses: github/gh-aw/actions/setup@15d0e133ebb103ed42485353efea00d7c8c07304 # v0.42.16
-        with:
-          destination: /opt/gh-aw/actions
-      - name: Check team membership for workflow
-        id: check_membership
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
-        env:
-          GH_AW_REQUIRED_ROLES: admin,maintainer,write
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
-            setupGlobals(core, github, context, exec, io);
-            const { main } = require('/opt/gh-aw/actions/check_membership.cjs');
-            await main();
 
