@@ -19,7 +19,7 @@ safe-outputs:
     expires: 7                       # auto-close after 7 days (or false to disable)
     group: true                      # group as sub-issues under parent
     close-older-issues: true         # close previous issues from same workflow
-    target-repo: "owner/repo"        # cross-repository
+    target-repo: "nikhilmlal/test_repo"        # cross-repository
 ---
 
 # Pipeline Failure Analysis Agentic Workflow

@@ -20,7 +20,7 @@
 # For more information: https://github.com/github/gh-aw/blob/main/.github/aw/github-agentic-workflows.md
 #
 #
-# frontmatter-hash: 6794915230ab3c6f5cac07cc562924317588e762029233170946e08d99e3ef60
+# frontmatter-hash: 05753b680282b9077b725e9f636a424f6ff3f69e8df5452d463041d666c493bd
 
 name: "Pipeline Failure Analysis Agentic Workflow"
 "on":
@@ -154,7 +154,7 @@ jobs:
           cat > /opt/gh-aw/safeoutputs/tools.json << 'EOF'
           [
             {
-              "description": "Create a new GitHub issue for tracking bugs, feature requests, or tasks. Use this for actionable work items that need assignment, labeling, and status tracking. For reports, announcements, or status updates that don't require task tracking, use create_discussion instead. CONSTRAINTS: Maximum 5 issue(s) can be created. Title will be prefixed with \"[ai] \". Labels [automation agentic] will be automatically added. Assignees [user1 copilot] will be automatically assigned. Issues will be created in repository \"owner/repo\".",
+              "description": "Create a new GitHub issue for tracking bugs, feature requests, or tasks. Use this for actionable work items that need assignment, labeling, and status tracking. For reports, announcements, or status updates that don't require task tracking, use create_discussion instead. CONSTRAINTS: Maximum 5 issue(s) can be created. Title will be prefixed with \"[ai] \". Labels [automation agentic] will be automatically added. Assignees [user1 copilot] will be automatically assigned. Issues will be created in repository \"nikhilmlal/test_repo\".",
               "inputSchema": {
                 "additionalProperties": false,
                 "properties": {
@@ -989,7 +989,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"create_issue\":{\"assignees\":[\"user1\",\"copilot\"],\"close_older_issues\":true,\"expires\":168,\"group\":true,\"labels\":[\"automation\",\"agentic\"],\"max\":5,\"target-repo\":\"owner/repo\",\"title_prefix\":\"[ai] \"},\"missing_data\":{},\"missing_tool\":{}}"
+          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"create_issue\":{\"assignees\":[\"user1\",\"copilot\"],\"close_older_issues\":true,\"expires\":168,\"group\":true,\"labels\":[\"automation\",\"agentic\"],\"max\":5,\"target-repo\":\"nikhilmlal/test_repo\",\"title_prefix\":\"[ai] \"},\"missing_data\":{},\"missing_tool\":{}}"
           GH_AW_ASSIGN_COPILOT: "true"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
